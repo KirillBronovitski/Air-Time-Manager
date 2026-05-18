@@ -36,4 +36,10 @@ public class PlaneController {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(planeService.savePlane(planeData));
     }
 
+    @DeleteMapping("/planes/{name}")
+    public ResponseEntity<?> deletePlane(@PathVariable @NotNull String name) {
+        planeService.deletePlane(name);
+        return ResponseEntity.noContent().build();
+    }
+
 }

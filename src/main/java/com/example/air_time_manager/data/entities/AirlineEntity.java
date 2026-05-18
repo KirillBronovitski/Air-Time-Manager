@@ -6,8 +6,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table (uniqueConstraints = {
-        @UniqueConstraint(columnNames = {"name"})
+@Table (
+        name = "AIRLINE_ENTITY",
+        uniqueConstraints = {
+        @UniqueConstraint(columnNames = {"NAME"})
 })
 public class AirlineEntity {
 

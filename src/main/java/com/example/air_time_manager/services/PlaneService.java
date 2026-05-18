@@ -57,7 +57,6 @@ public class PlaneService {
 
     public Plane savePlane(PlaneData planeData) {
         String name = planeData.name();
-
         AirportEntity homeAirport = airportService.getAirportEntity(planeData.homeAirport().replaceAll("\\s+", "-"));
         AirportEntity currentAirport = airportService.getAirportEntity(planeData.currentAirport().replaceAll("\\s+", "-"));
         AirlineEntity airline = airlineService.getAirlineEntity(planeData.airline().replaceAll("\\s+", "-"));
@@ -69,6 +68,11 @@ public class PlaneService {
         );
         planeRepo.save(planeEntity);
         return getPlane(name);
+    }
+
+    public void deletePlane(String name) {
+        PlaneEntity planeEntity = getPlaneEntity(name);
+        planeRepo.delete(planeEntity);
     }
 
     private Plane mapEntityToDto(PlaneEntity planeEntity) {

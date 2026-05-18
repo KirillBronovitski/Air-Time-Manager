@@ -48,6 +48,11 @@ public class AirlineService {
         return getAirline(name);
     }
 
+    public void deleteAirline(String name) {
+        AirlineEntity airlineEntity = getAirlineEntity(name);
+        airlineRepo.delete(airlineEntity);
+    }
+
     private Airline mapEntityToDto(AirlineEntity entity) {
         return new Airline(
                 entity.getId(),

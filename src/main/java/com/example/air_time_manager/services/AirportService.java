@@ -49,6 +49,11 @@ public class AirportService {
         return getAirport(name);
     }
 
+    public void deleteAirport(String name) {
+        AirportEntity airportEntity = getAirportEntity(name);
+        airportRepo.delete(airportEntity);
+    }
+
     public Airport mapEntityToDto(AirportEntity airportEntity) {
         return new Airport(
                 airportEntity.getId(),

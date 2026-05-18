@@ -6,6 +6,7 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
+@Table(name = "AIRPORT_ENTITY")
 @Entity
 public class AirportEntity {
 

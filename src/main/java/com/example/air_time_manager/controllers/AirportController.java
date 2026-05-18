@@ -31,4 +31,10 @@ public class AirportController {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(airportService.saveAirport(airportData));
     }
 
+    @DeleteMapping("/airports/{name}")
+    public ResponseEntity<?> deleteAirport(@PathVariable @NotNull String name) {
+        airportService.deleteAirport(name);
+        return ResponseEntity.noContent().build();
+    }
+
 }

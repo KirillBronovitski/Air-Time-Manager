@@ -38,4 +38,8 @@ public class Plane {
     public String getAirline() {
         return airline;
     }
+
+    public String getCurrentAirport() {
+        return currentAirport;
+    }
 }

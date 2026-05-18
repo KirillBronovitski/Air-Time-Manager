@@ -2,6 +2,7 @@ package com.example.air_time_manager.data.entities;
 
 import jakarta.persistence.*;
 
+@Table(name = "PLANE_ENTITY")
 @Entity
 public class PlaneEntity {
 
@@ -48,5 +49,9 @@ public class PlaneEntity {
 
     public AirportEntity getCurrentAirport() {
         return currentAirport;
+    }
+
+    public void setAirline(AirlineEntity airline) {
+        this.airline = airline;
     }
 }
