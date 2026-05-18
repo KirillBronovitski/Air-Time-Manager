@@ -1,9 +1,10 @@
 package com.example.air_time_manager.services;
 
-import com.example.air_time_manager.data.AirlineEntity;
-import com.example.air_time_manager.data.AirlineRepository;
+import com.example.air_time_manager.data.entities.AirlineEntity;
+import com.example.air_time_manager.data.entities.PlaneEntity;
+import com.example.air_time_manager.data.repositories.AirlineRepository;
 import com.example.air_time_manager.model.Airline;
-import com.example.air_time_manager.model.AirlineData;
+import com.example.air_time_manager.model.requestbodies.AirlineData;
 import com.example.air_time_manager.validation.exceptions.DataNotFoundException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -28,27 +29,30 @@ public class AirlineService {
         return airlines;
     }
 
-    public Airline getAirline(String name) {
-        Airline airline = mapEntityToDto(airlineRepo.findByName(name).orElse(null));
-        if (airline == null) {
+    public AirlineEntity getAirlineEntity(String name) {
+        AirlineEntity airlineEntity = airlineRepo.findByName(name).orElse(null);
+        if (airlineEntity == null) {
             throw new DataNotFoundException(String.format("No airline with name \"%s\" found", name));
         }
-        return airline;
+        return airlineEntity;
+    }
+
+    public Airline getAirline(String name) {
+        return mapEntityToDto(getAirlineEntity(name));
     }
 
     public Airline saveAirline(AirlineData airlineData) {
-        AirlineEntity airlineEntity = new AirlineEntity(airlineData.name());
+        String name = airlineData.name().replaceAll("\\s+", "-");
+        AirlineEntity airlineEntity = new AirlineEntity(name);
         airlineRepo.save(airlineEntity);
-        return mapEntityToDto(airlineRepo.findByName(airlineData.name()).orElse(null));
+        return getAirline(name);
     }
 
     private Airline mapEntityToDto(AirlineEntity entity) {
-        if (entity == null) {
-            return null;
-        }
         return new Airline(
                 entity.getId(),
-                entity.getName()
+                entity.getName(),
+                entity.getPlanes().stream().map(PlaneEntity::getName).toList()
                 );
     }
 }

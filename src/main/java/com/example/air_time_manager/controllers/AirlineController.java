@@ -1,6 +1,6 @@
 package com.example.air_time_manager.controllers;
 
-import com.example.air_time_manager.model.AirlineData;
+import com.example.air_time_manager.model.requestbodies.AirlineData;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
