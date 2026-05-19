@@ -5,11 +5,14 @@ import com.example.air_time_manager.data.entities.AirportEntity;
 import com.example.air_time_manager.data.entities.PlaneEntity;
 import com.example.air_time_manager.data.repositories.PlaneRepository;
 import com.example.air_time_manager.model.Plane;
+import com.example.air_time_manager.model.answerbodies.TimeBody;
 import com.example.air_time_manager.model.requestbodies.PlaneData;
 import com.example.air_time_manager.validation.exceptions.DataNotFoundException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.ZonedDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -73,6 +76,18 @@ public class PlaneService {
     public void deletePlane(String name) {
         PlaneEntity planeEntity = getPlaneEntity(name);
         planeRepo.delete(planeEntity);
+    }
+
+    public TimeBody getHomeTimeOfPlane(String name) {
+        PlaneEntity planeEntity = getPlaneEntity(name);
+        AirportEntity homeAirport = planeEntity.getHomeAirport();
+        return new TimeBody(ZonedDateTime.ofInstant(Instant.now(), homeAirport.getZoneId()).toString());
+    }
+
+    public TimeBody getLocalTimeOfPlane(String name) {
+        PlaneEntity planeEntity = getPlaneEntity(name);
+        AirportEntity currentAirport = planeEntity.getCurrentAirport();
+        return new TimeBody(ZonedDateTime.ofInstant(Instant.now(), currentAirport.getZoneId()).toString());
     }
 
     private Plane mapEntityToDto(PlaneEntity planeEntity) {
