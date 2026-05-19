@@ -6,7 +6,10 @@ import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
 
-@Table(name = "AIRPORT_ENTITY")
+@Table(
+        name = "AIRPORT_ENTITY",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"NAME"})}
+)
 @Entity
 public class AirportEntity {
 

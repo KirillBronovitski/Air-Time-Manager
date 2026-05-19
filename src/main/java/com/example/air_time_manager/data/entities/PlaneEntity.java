@@ -2,7 +2,10 @@ package com.example.air_time_manager.data.entities;
 
 import jakarta.persistence.*;
 
-@Table(name = "PLANE_ENTITY")
+@Table(
+        name = "PLANE_ENTITY",
+        uniqueConstraints = {@UniqueConstraint(columnNames = {"NAME"})}
+)
 @Entity
 public class PlaneEntity {
 
