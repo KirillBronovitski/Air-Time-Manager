@@ -54,7 +54,4 @@ public class PlaneEntity {
         return currentAirport;
     }
 
-    public void setAirline(AirlineEntity airline) {
-        this.airline = airline;
-    }
 }

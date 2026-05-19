@@ -24,7 +24,10 @@ public class AirportEntity {
     private ZoneId zoneId;
 
     @OneToMany(mappedBy = "homeAirport", cascade = {CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
-    List<PlaneEntity> assignedPlanes;
+    private List<PlaneEntity> assignedPlanes;
+
+    @OneToMany(mappedBy = "currentAirport", cascade = {CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    private List<PlaneEntity> planesAtAirport;
 
     public AirportEntity() {}
 
@@ -32,6 +35,7 @@ public class AirportEntity {
         this.name = name;
         this.zoneId = zoneId;
         assignedPlanes = new ArrayList<>();
+        planesAtAirport = new ArrayList<>();
     }
 
 
@@ -49,5 +53,9 @@ public class AirportEntity {
 
     public List<PlaneEntity> getAssignedPlanes() {
         return assignedPlanes;
+    }
+
+    public List<PlaneEntity> getPlanesAtAirport() {
+        return planesAtAirport;
     }
 }
