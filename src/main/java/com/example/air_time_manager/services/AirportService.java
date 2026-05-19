@@ -59,7 +59,8 @@ public class AirportService {
                 airportEntity.getId(),
                 airportEntity.getName(),
                 airportEntity.getZoneId(),
-                airportEntity.getAssignedPlanes().stream().map(PlaneEntity::getName).toList()
+                airportEntity.getAssignedPlanes().stream().map(PlaneEntity::getName).toList(),
+                airportEntity.getPlanesAtAirport().stream().map(PlaneEntity::getName).toList()
                 );
     }
 

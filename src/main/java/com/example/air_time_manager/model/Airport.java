@@ -13,14 +13,17 @@ public class Airport {
 
     ZoneId zoneId;
 
-    List<String> planes;
+    List<String> assignedPlanes;
+
+    List<String> planesAtAirport;
 
     @JsonCreator
-    public Airport(Long id, String name, ZoneId zoneId, List<String> planes) {
+    public Airport(Long id, String name, ZoneId zoneId, List<String> assignedPlanes, List<String> planesAtAirport) {
         this.id = id;
         this.name = name;
         this.zoneId = zoneId;
-        this.planes = planes;
+        this.assignedPlanes = assignedPlanes;
+        this.planesAtAirport = planesAtAirport;
     }
 
     public Long getId() {
@@ -35,7 +38,11 @@ public class Airport {
         return zoneId;
     }
 
-    public List<String> getPlanes() {
-        return planes;
+    public List<String> getAssignedPlanes() {
+        return assignedPlanes;
+    }
+
+    public List<String> getPlanesAtAirport() {
+        return planesAtAirport;
     }
 }
