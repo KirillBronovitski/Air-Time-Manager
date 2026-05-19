@@ -20,7 +20,7 @@ public class AirlineEntity {
     @Column
     private String name;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.PERSIST})
+    @OneToMany(mappedBy = "airline", fetch = FetchType.LAZY, cascade = {CascadeType.DETACH, CascadeType.PERSIST})
     private List<PlaneEntity> planes;
 
     public AirlineEntity() {}

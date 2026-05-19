@@ -20,7 +20,7 @@ public class AirportEntity {
     @Column
     private ZoneId zoneId;
 
-    @OneToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "homeAirport", cascade = {CascadeType.DETACH, CascadeType.PERSIST}, fetch = FetchType.LAZY)
     List<PlaneEntity> assignedPlanes;
 
     public AirportEntity() {}
