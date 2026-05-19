@@ -42,6 +42,14 @@ public class PlaneService {
         return mapEntityToDto(getPlaneEntity(planeName));
     }
 
+    public List<Plane> getAllPlanes() {
+        List<Plane> planes = new ArrayList<>();
+        for (PlaneEntity planeEntity: planeRepo.findAll()) {
+            planes.add(mapEntityToDto(planeEntity));
+        }
+        return planes;
+    }
+
     public List<Plane> getPlanesAtAirport(String airportName) {
         List<Plane> planes = new ArrayList<>();
         for (PlaneEntity planeEntity: planeRepo.findAllAtAirport(airportName, Sort.by(Sort.Order.asc("name")))) {
@@ -59,18 +67,18 @@ public class PlaneService {
     }
 
     public Plane savePlane(PlaneData planeData) {
-        String name = planeData.name();
+        String planeName = planeData.name().replaceAll("\\s+", "-");
         AirportEntity homeAirport = airportService.getAirportEntity(planeData.homeAirport().replaceAll("\\s+", "-"));
         AirportEntity currentAirport = airportService.getAirportEntity(planeData.currentAirport().replaceAll("\\s+", "-"));
         AirlineEntity airline = airlineService.getAirlineEntity(planeData.airline().replaceAll("\\s+", "-"));
         PlaneEntity planeEntity = new PlaneEntity(
-                name,
+                planeName,
                 homeAirport,
                 currentAirport,
                 airline
         );
         planeRepo.save(planeEntity);
-        return getPlane(name);
+        return getPlane(planeName);
     }
 
     public void deletePlane(String name) {

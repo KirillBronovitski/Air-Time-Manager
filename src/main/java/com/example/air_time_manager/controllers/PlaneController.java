@@ -21,6 +21,11 @@ public class PlaneController {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(planeService.getPlane(planeName));
     }
 
+    @GetMapping("/planes")
+    public ResponseEntity<?> getAllPlanes() {
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(planeService.getAllPlanes());
+    }
+
     @GetMapping("/planes/{name}/home-time")
     public ResponseEntity<?> getHomeTimeOfPlane(@PathVariable @NotNull String name) {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(planeService.getHomeTimeOfPlane(name));
