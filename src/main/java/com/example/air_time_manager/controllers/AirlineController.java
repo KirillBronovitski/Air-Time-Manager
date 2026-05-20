@@ -4,6 +4,7 @@ import com.example.air_time_manager.model.requestbodies.AirlineData;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 import com.example.air_time_manager.services.AirlineService;
 
@@ -22,17 +23,17 @@ public class AirlineController {
     }
 
     @GetMapping("/airlines/{name}")
-    public ResponseEntity<?> getAirline(@PathVariable @NotNull String name) {
+    public ResponseEntity<?> getAirline(@PathVariable @Validated @NotNull String name) {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(airlineService.getAirline(name));
     }
 
     @PostMapping("/airlines")
-    public ResponseEntity<?> saveAirline(@RequestBody @NotNull AirlineData airlineData) {
+    public ResponseEntity<?> saveAirline(@RequestBody @Validated @NotNull AirlineData airlineData) {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(airlineService.saveAirline(airlineData));
     }
 
     @DeleteMapping("/airlines/{name}")
-    public ResponseEntity<?> deleteAirline(@PathVariable @NotNull String name) {
+    public ResponseEntity<?> deleteAirline(@PathVariable @Validated @NotNull String name) {
         airlineService.deleteAirline(name);
         return ResponseEntity.noContent().build();
     }
