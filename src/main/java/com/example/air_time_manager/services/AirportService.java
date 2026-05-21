@@ -4,7 +4,9 @@ import com.example.air_time_manager.data.entities.AirportEntity;
 import com.example.air_time_manager.data.entities.PlaneEntity;
 import com.example.air_time_manager.data.repositories.AirportRepository;
 import com.example.air_time_manager.model.Airport;
+import com.example.air_time_manager.model.answerbodies.DeletionFeedback;
 import com.example.air_time_manager.model.requestbodies.AirportData;
+import com.example.air_time_manager.model.requestbodies.DeletionConfirmation;
 import com.example.air_time_manager.validation.exceptions.DataNotFoundException;
 import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Service;
@@ -49,9 +51,21 @@ public class AirportService {
         return getAirport(name);
     }
 
-    public void deleteAirport(String name) {
-        AirportEntity airportEntity = getAirportEntity(name);
-        airportRepo.delete(airportEntity);
+    public DeletionFeedback deleteAirport(String name, DeletionConfirmation deletionConfirmation) {
+        if (deletionConfirmation.answer()) {
+            AirportEntity airportEntity = getAirportEntity(name);
+            airportRepo.delete(airportEntity);
+            return new DeletionFeedback(String.format("Airport \"%s\" deleted successfully", name));
+        }
+        return new DeletionFeedback(String.format("Airport \"%s\" not deleted: action was not confirmed", name));
+    }
+
+    public DeletionFeedback deleteAllAirports(DeletionConfirmation deletionConfirmation) {
+        if (deletionConfirmation.answer()) {
+            airportRepo.deleteAll();
+            return new DeletionFeedback("All airports deleted successfully");
+        }
+        return new DeletionFeedback("No airports deleted: action was not confirmed");
     }
 
     public Airport mapEntityToDto(AirportEntity airportEntity) {

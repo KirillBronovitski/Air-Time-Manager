@@ -5,6 +5,8 @@ import com.example.air_time_manager.data.entities.FlightEntity;
 import com.example.air_time_manager.data.entities.PlaneEntity;
 import com.example.air_time_manager.data.repositories.FlightRepository;
 import com.example.air_time_manager.model.Flight;
+import com.example.air_time_manager.model.answerbodies.DeletionFeedback;
+import com.example.air_time_manager.model.requestbodies.DeletionConfirmation;
 import com.example.air_time_manager.model.requestbodies.FlightData;
 import com.example.air_time_manager.validation.exceptions.DataNotFoundException;
 import org.springframework.stereotype.Service;
@@ -48,6 +50,23 @@ public class FlightService {
                 UTCEndTime == null ? "UNKNOWN" : UTCEndTime);
         flightRepo.save(flightEntity);
         return mapEntityToDto(flightEntity);
+    }
+
+    public DeletionFeedback deleteFlight(Long id, DeletionConfirmation deletionConfirmation) {
+        if (deletionConfirmation.answer()) {
+            FlightEntity flightEntity = getFlightEntity(id);
+            flightRepo.delete(flightEntity);
+            return new DeletionFeedback(String.format("Flight with id %d deleted successfully", id));
+        }
+        return new DeletionFeedback(String.format("Flight with id %d not deleted: action was not confirmed", id));
+    }
+
+    public DeletionFeedback deleteAllFlights(DeletionConfirmation deletionConfirmation) {
+        if (deletionConfirmation.answer()) {
+            flightRepo.deleteAll();
+            return new DeletionFeedback("All flights deleted successfully");
+        }
+        return new DeletionFeedback("No flights deleted: action was not confirmed");
     }
 
     private Flight mapEntityToDto(FlightEntity flightEntity) {

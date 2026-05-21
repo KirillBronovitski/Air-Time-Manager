@@ -1,5 +1,6 @@
 package com.example.air_time_manager.controllers;
 
+import com.example.air_time_manager.model.requestbodies.DeletionConfirmation;
 import com.example.air_time_manager.model.requestbodies.PlaneData;
 import com.example.air_time_manager.services.PlaneService;
 import jakarta.validation.constraints.NotNull;
@@ -53,9 +54,13 @@ public class PlaneController {
     }
 
     @DeleteMapping("/planes/{name}")
-    public ResponseEntity<?> deletePlane(@PathVariable @Validated @NotNull String name) {
-        planeService.deletePlane(name);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deletePlane(@PathVariable @Validated @NotNull String name, @RequestBody @Validated @NotNull DeletionConfirmation deletionConfirmation) {
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(planeService.deletePlane(name, deletionConfirmation));
+    }
+
+    @DeleteMapping("/planes")
+    public ResponseEntity<?> deleteAllPlanes(@RequestBody @Validated @NotNull DeletionConfirmation deletionConfirmation) {
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(planeService.deleteALlPlanes(deletionConfirmation));
     }
 
 }

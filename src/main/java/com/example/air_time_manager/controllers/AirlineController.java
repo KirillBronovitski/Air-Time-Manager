@@ -1,6 +1,7 @@
 package com.example.air_time_manager.controllers;
 
 import com.example.air_time_manager.model.requestbodies.AirlineData;
+import com.example.air_time_manager.model.requestbodies.DeletionConfirmation;
 import jakarta.validation.constraints.NotNull;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
@@ -33,9 +34,13 @@ public class AirlineController {
     }
 
     @DeleteMapping("/airlines/{name}")
-    public ResponseEntity<?> deleteAirline(@PathVariable @Validated @NotNull String name) {
-        airlineService.deleteAirline(name);
-        return ResponseEntity.noContent().build();
+    public ResponseEntity<?> deleteAirline(@PathVariable @Validated @NotNull String name, @RequestBody @Validated @NotNull DeletionConfirmation deletionConfirmation) {
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(airlineService.deleteAirline(name, deletionConfirmation));
+    }
+
+    @DeleteMapping("/airlines")
+    public ResponseEntity<?> deleteAllAirlines(@RequestBody @Validated @NotNull DeletionConfirmation deletionConfirmation) {
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(airlineService.deleteAllAirlines(deletionConfirmation));
     }
 
 }

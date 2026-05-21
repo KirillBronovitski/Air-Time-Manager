@@ -1,5 +1,6 @@
 package com.example.air_time_manager.controllers;
 
+import com.example.air_time_manager.model.requestbodies.DeletionConfirmation;
 import com.example.air_time_manager.model.requestbodies.FlightData;
 import com.example.air_time_manager.services.FlightService;
 import jakarta.validation.constraints.NotNull;
@@ -25,6 +26,16 @@ public class FlightController {
     @PostMapping("/flights")
     public ResponseEntity<?> postFlight(@NotNull @Validated @RequestBody FlightData flightData) {
         return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(flightService.saveFlight(flightData));
+    }
+
+    @DeleteMapping("/flights/{id}")
+    public ResponseEntity<?> deleteFlight(@PathVariable @Validated @NotNull Long id, @RequestBody @Validated @NotNull DeletionConfirmation deletionConfirmation) {
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(flightService.deleteFlight(id, deletionConfirmation));
+    }
+
+    @DeleteMapping("/flights")
+    public ResponseEntity<?> deleteAllFlights(@RequestBody @Validated @NotNull DeletionConfirmation deletionConfirmation) {
+        return ResponseEntity.ok().contentType(MediaType.APPLICATION_JSON).body(flightService.deleteAllFlights(deletionConfirmation));
     }
 
 }

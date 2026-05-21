@@ -5,7 +5,9 @@ import com.example.air_time_manager.data.entities.AirportEntity;
 import com.example.air_time_manager.data.entities.PlaneEntity;
 import com.example.air_time_manager.data.repositories.PlaneRepository;
 import com.example.air_time_manager.model.Plane;
+import com.example.air_time_manager.model.answerbodies.DeletionFeedback;
 import com.example.air_time_manager.model.answerbodies.TimeBody;
+import com.example.air_time_manager.model.requestbodies.DeletionConfirmation;
 import com.example.air_time_manager.model.requestbodies.PlaneData;
 import com.example.air_time_manager.validation.exceptions.DataNotFoundException;
 import org.springframework.data.domain.Sort;
@@ -81,9 +83,20 @@ public class PlaneService {
         return getPlane(planeName);
     }
 
-    public void deletePlane(String name) {
-        PlaneEntity planeEntity = getPlaneEntity(name);
-        planeRepo.delete(planeEntity);
+    public DeletionFeedback deletePlane(String name, DeletionConfirmation deletionConfirmation) {
+        if (deletionConfirmation.answer()) {
+            PlaneEntity planeEntity = getPlaneEntity(name);
+            planeRepo.delete(planeEntity);
+            return new DeletionFeedback(String.format("Plane \"%s\" deleted successfully", name));
+        }
+        return new DeletionFeedback(String.format("Plane \"%s\" not deleted: action was not confirmed", name));
+    }
+
+    public DeletionFeedback deleteALlPlanes(DeletionConfirmation deletionConfirmation) {
+        if (deletionConfirmation.answer()) {
+            return new DeletionFeedback("All planes deleted successfully");
+        }
+        return new DeletionFeedback("No planes deleted: action was not confirmed");
     }
 
     public TimeBody getHomeTimeOfPlane(String name) {
